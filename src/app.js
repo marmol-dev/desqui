@@ -5,16 +5,16 @@ const Html = require('./html');
 const Url = require('./url');
 
 class App {
-  static download({baseUrl, urlLinks, linksSelector, contentSelector, outputFile}){
+  static download({baseUrl, urlLinks, linksSelector, contentSelector, outputFile, headers}){
     const html = new Html();
     
-    Crawler.crawl(urlLinks, linksSelector)
+    Crawler.crawl(urlLinks, linksSelector, headers)
       .then($list => 
         $list.map((i) => 
           Url.join(baseUrl, $list.eq(i).attr('href'))
         ).get()
       )
-      .then(urls => Crawler.bach(urls, contentSelector))
+      .then(urls => Crawler.bach(urls, contentSelector, headers))
       .then(contents => {
         html.addContent(contents);
         return html.saveInDisk(outputFile);

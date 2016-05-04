@@ -2,12 +2,11 @@
 
 const request = require('request');
 const cheerio = require('cheerio');
-const constants = require('./constants');
 
 class Crawler {
-  static crawl(url, selector){
+  static crawl(url, selector, headers = {}){
     return new Promise((resolve, reject) => {
-      request(url, (err, response, body) => {
+      request(url, {headers}, (err, response, body) => {
         if (err) {
           reject(err);
         } else {
@@ -18,9 +17,9 @@ class Crawler {
     });
   }
 
-  static bach(urls, selector){
+  static bach(urls, ...args){
     console.log('batching', urls);
-    return Promise.all(urls.map((url) => Crawler.crawl(url, selector)));
+    return Promise.all(urls.map((url) => Crawler.crawl(url, ...args)));
   }
 }
 
