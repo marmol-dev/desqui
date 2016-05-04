@@ -1,0 +1,7 @@
+{
+    "baseUrl": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
+    "urlLinks": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
+    "linksSelector": "#Contents a",
+    "contentSelector":"#PageTitle, #PageContent",
+    "outputFile": "java.html"
+}
