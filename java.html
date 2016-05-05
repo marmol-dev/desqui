@@ -1,8 +1,10 @@
 <html>
       <head></head>
       <body>
-        <h1>The book</h1>
-        <div id="content"><div id="PageTitle"><h1>Processes and Threads</h1></div><div id="PageContent">
+        <div id="title">
+          <h1>Java manual</h1>
+        </div>
+        <div id="content"><section><header><h1>Processes and Threads</h1></header><div>
 
 <p>In concurrent programming, there are two basic units of execution: <i>processes</i> and <i>threads</i>. In the Java programming language, concurrent programming is mostly concerned with threads. However, processes are also important.</p>
 <p>A computer system normally has many active processes and threads. This is true even in systems that only have a single execution core, and thus only have one thread actually executing at any given moment. Processing time for a single core is shared among processes and threads through an OS feature called time slicing.</p>
@@ -17,7 +19,7 @@
 <p>Threads exist within a process &#x2014; every process has at least one. Threads share the process&apos;s resources, including memory and open files. This makes for efficient, but potentially problematic, communication.</p>
 <p>Multithreaded execution is an essential feature of the Java platform. Every application has at least one thread &#x2014; or several, if you count &quot;system&quot; threads that do things like memory management and signal handling. But from the application programmer&apos;s point of view, you start with just one thread, called the <i>main thread</i>. This thread has the ability to create additional threads, as we&apos;ll demonstrate in the next section.</p>
 
-        </div><div id="PageTitle"><h1>Thread Objects</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Thread Objects</h1></header><div>
 
 <p>Each thread is associated with an instance of the class 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html"><code>Thread</code></a>. There are two basic strategies for using <code>Thread</code> objects to create a concurrent application.</p>
@@ -27,7 +29,7 @@
 </ul>
 <p>This section documents the use of <code>Thread</code> objects. Executors are discussed with other <a href="highlevel.html">high-level concurrency objects</a>.</p>
 
-        </div><div id="PageTitle"><h1>Defining and Starting a Thread</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Defining and Starting a Thread</h1></header><div>
 
 <p>An application that creates an instance of <code>Thread</code> must provide the code that will run in that thread. There are two ways to do this:</p>
 <ul>
@@ -72,7 +74,7 @@ public class HelloThread extends Thread {
 <p>The <code>Thread</code> class defines a number of methods useful for thread management. These include <code>static</code> methods, which provide information about, or affect the status of, the thread invoking the method. The other methods are invoked from other threads involved in managing the thread and <code>Thread</code> object. We&apos;ll examine some of these methods in the following sections.</p>
 
 
-        </div><div id="PageTitle"><h1>Pausing Execution with Sleep</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Pausing Execution with Sleep</h1></header><div>
 
 <p><code>Thread.sleep</code> causes the current thread to suspend execution for a specified period. This is an efficient means of making processor time available to the other threads of an application or other applications that might be running on a computer system. The <code>sleep</code> method can also be used for pacing, as shown in the example that follows, and waiting for another thread with duties that are understood to have time requirements, as with the <code>SimpleThreads</code> example in a later section.</p>
 <p>Two overloaded versions of <code>sleep</code> are provided: one that specifies the sleep time to the millisecond and one that specifies the sleep time to the nanosecond. However, these sleep times are not guaranteed to be precise, because they are limited by the facilities provided by the underlying OS. Also, the sleep period can be terminated by interrupts, as we&apos;ll see in a later section. In any case, you cannot assume that invoking <code>sleep</code> will suspend the thread for precisely the time period specified.</p>
@@ -104,7 +106,7 @@ public class SleepMessages {
 <p>Notice that <code>main</code> declares that it <code>throws InterruptedException</code>. This is an exception that <code>sleep</code> throws when another thread interrupts the current thread while <code>sleep</code> is active. Since this application has not defined another thread to cause the interrupt, it doesn&apos;t bother to catch <code>InterruptedException</code>.</p>
 
 
-        </div><div id="PageTitle"><h1>Interrupts</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Interrupts</h1></header><div>
 
 <p>An <i>interrupt</i> is an indication to a thread that it should stop what it is doing and do something else. It&apos;s up to the programmer to decide exactly how a thread responds to an interrupt, but it is very common for the thread to terminate. This is the usage emphasized in this lesson.</p>
 <p>A thread sends an interrupt by invoking 
@@ -146,7 +148,7 @@ if (Thread.interrupted()) {
 <p>The interrupt mechanism is implemented using an internal flag known as the <i>interrupt status</i>. Invoking <code>Thread.interrupt</code> sets this flag. When a thread checks for an interrupt by invoking the static method <code>Thread.interrupted</code>, interrupt status is cleared. The non-static <code>isInterrupted</code> method, which is used by one thread to query the interrupt status of another, does not change the interrupt status flag.</p>
 <p>By convention, any method that exits by throwing an <code>InterruptedException</code> clears interrupt status when it does so. However, it&apos;s always possible that interrupt status will immediately be set again, by another thread invoking <code>interrupt</code>.</p>
 
-        </div><div id="PageTitle"><h1>Joins</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Joins</h1></header><div>
 
 <p>The <code>join</code> method allows one thread to wait for the completion of another. If <code>t</code> is a <code>Thread</code> object whose thread is currently executing,</p>
 <div class="codeblock"><pre>
@@ -155,7 +157,7 @@ t.join();
 <p>causes the current thread to pause execution until <code>t</code>&apos;s thread terminates. Overloads of <code>join</code> allow the programmer to specify a waiting period. However, as with <code>sleep</code>, <code>join</code> is dependent on the OS for timing, so you should not assume that <code>join</code> will wait exactly as long as you specify.</p>
 <p>Like <code>sleep</code>, <code>join</code> responds to an interrupt by exiting with an <code>InterruptedException</code>.</p>
 
-        </div><div id="PageTitle"><h1>The SimpleThreads Example</h1></div><div id="PageContent">
+        </div></section><section><header><h1>The SimpleThreads Example</h1></header><div>
 
 <p>The following example brings together some of the concepts of this section. 
 <a class="SourceLink" target="_blank" href="examples/SimpleThreads.java" onclick="showCode(&apos;../../displayCode.html&apos;, &apos;examples/SimpleThreads.java&apos;); return false;"><code>SimpleThreads</code></a> consists of two threads. The first is the main thread that every Java application has. The main thread creates a new thread from the <code>Runnable</code> object, <code>MessageLoop</code>, and waits for it to finish. If the <code>MessageLoop</code> thread takes too long to finish, the main thread interrupts it.</p>
@@ -246,7 +248,7 @@ public class SimpleThreads {
 }
 </pre></div>
 
-        </div><div id="PageTitle"><h1>Synchronization</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Synchronization</h1></header><div>
 
 <p>Threads communicate primarily by sharing access to fields and the objects reference fields refer to. This form of communication is extremely efficient, but makes two kinds of errors possible: <i>thread interference</i> and <i>memory consistency errors</i>. The tool needed to prevent these errors is <i>synchronization</i>.</p>
 
@@ -265,7 +267,7 @@ public class SimpleThreads {
 </ul>
 
 
-        </div><div id="PageTitle"><h1>Thread Interference</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Thread Interference</h1></header><div>
 
 <p>Consider a simple class called 
 <a class="SourceLink" target="_blank" href="examples/Counter.java" onclick="showCode(&apos;../../displayCode.html&apos;, &apos;examples/Counter.java&apos;); return false;"><code><code>Counter</code></code></a></p>
@@ -308,7 +310,7 @@ class Counter {
 </ol>
 <p>Thread A&apos;s result is lost, overwritten by Thread B. This particular interleaving is only one possibility. Under different circumstances it might be Thread B&apos;s result that gets lost, or there could be no error at all. Because they are unpredictable, thread interference bugs can be difficult to detect and fix.</p>
 
-        </div><div id="PageTitle"><h1>Memory Consistency Errors</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Memory Consistency Errors</h1></header><div>
 
 <p><i>Memory consistency errors</i> occur when different threads have inconsistent views of what should be the same data. The causes of memory consistency errors are complex and beyond the scope of this tutorial. Fortunately, the programmer does not need a detailed understanding of these causes. All that is needed is a strategy for avoiding them.</p>
 <p>The key to avoiding memory consistency errors is understanding the <i>happens-before</i> relationship. This relationship is simply a guarantee that memory writes by one specific statement are visible to another specific statement. To see this, consider the following example. Suppose a simple <code>int</code> field is defined and initialized:</p>
@@ -333,7 +335,7 @@ System.out.println(counter);
 <p>For a list of actions that create happens-before relationships, refer to the 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/package-summary.html#MemoryVisibility">Summary page of the <code>java.util.concurrent</code> package.</a>.</p>
 
-        </div><div id="PageTitle"><h1>Synchronized Methods</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Synchronized Methods</h1></header><div>
 
 <p>The Java programming language provides two basic synchronization idioms: <i>synchronized methods</i> and <i>synchronized statements</i>. The more complex of the two, synchronized statements, are described in the next section. This section is about synchronized methods.</p>
 <p>To make a method synchronized, simply add the <code>synchronized</code> keyword to its declaration:</p>
@@ -368,7 +370,7 @@ But then other threads can use <code>instances</code> to access the object befor
 <hr></div>
 <p>Synchronized methods enable a simple strategy for preventing thread interference and memory consistency errors: if an object is visible to more than one thread, all reads or writes to that object&apos;s variables are done through <code>synchronized</code> methods. (An important exception: <code>final</code> fields, which cannot be modified after the object is constructed, can be safely read through non-synchronized methods, once the object is constructed) This strategy is effective, but can present problems with <a href="liveness.html">liveness</a>, as we&apos;ll see later in this lesson.</p>
 
-        </div><div id="PageTitle"><h1>Intrinsic Locks and Synchronization</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Intrinsic Locks and Synchronization</h1></header><div>
 
 <p>Synchronization is built around an internal entity known as the <i>intrinsic lock</i> or <i>monitor lock</i>. (The API specification often refers to this entity simply as a &quot;monitor.&quot;) Intrinsic locks play a role in both aspects of synchronization: enforcing exclusive access to an object&apos;s state and establishing happens-before relationships that are essential to visibility.</p>
 <p>Every object has an intrinsic lock associated with it. By convention, a thread that needs exclusive and consistent access to an object&apos;s fields has to <i>acquire</i> the object&apos;s intrinsic lock before accessing them, and then <i>release</i> the intrinsic lock when it&apos;s done with them. A thread is said to <i>own</i> the intrinsic lock between the time it has acquired the lock and released the lock. As long as a thread owns an intrinsic lock, no other thread can acquire the same lock. The other thread will block when it attempts to acquire the lock.</p>
@@ -413,7 +415,7 @@ public class MsLunch {
 <h2>Reentrant Synchronization</h2>
 <p>Recall that a thread cannot acquire a lock owned by another thread. But a thread <i>can</i> acquire a lock that it already owns. Allowing a thread to acquire the same lock more than once enables <i>reentrant synchronization</i>. This describes a situation where synchronized code, directly or indirectly, invokes a method that also contains synchronized code, and both sets of code use the same lock. Without reentrant synchronization, synchronized code would have to take many additional precautions to avoid having a thread cause itself to block.</p>
 
-        </div><div id="PageTitle"><h1>Atomic Access</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Atomic Access</h1></header><div>
 
 <p>In programming, an <i>atomic</i> action is one that effectively happens all at once. An atomic action cannot stop in the middle: it either happens completely, or it doesn&apos;t happen at all. No side effects of an atomic action are visible until the action is complete.</p>
 <p>We have already seen that an increment expression, such as <code>c++</code>, does not describe an atomic action. Even very simple expressions can define complex actions that can decompose into other actions. However, there are actions you can specify that are atomic:</p>
@@ -426,11 +428,11 @@ public class MsLunch {
 <p>Some of the classes in the 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/package-summary.html"><code>java.util.concurrent</code></a> package provide atomic methods that do not rely on synchronization. We&apos;ll discuss them in the section on <a href="highlevel.html">High Level Concurrency Objects</a>.</p>
 
-        </div><div id="PageTitle"><h1>Liveness</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Liveness</h1></header><div>
 
 <p>A concurrent application&apos;s ability to execute in a timely manner is known as its <i>liveness</i>. This section describes the most common kind of liveness problem, <a href="deadlock.html">deadlock</a>, and goes on to briefly describe two other liveness problems, <a href="starvelive.html">starvation and livelock</a>.</p>
 
-        </div><div id="PageTitle"><h1>Deadlock</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Deadlock</h1></header><div>
 
 <p><i>Deadlock</i> describes a situation where two or more threads are blocked forever, waiting for each other. Here&apos;s an example.</p>
 <p>Alphonse and Gaston are friends, and great believers in courtesy. A strict rule of courtesy is that when you bow to a friend, you must remain bowed until your friend has a chance to return the bow. Unfortunately, this rule does not account for the possibility that two friends might bow to each other at the same time. This example application, 
@@ -475,7 +477,7 @@ public class Deadlock {
 </pre></div>
 <p>When <code>Deadlock</code> runs, it&apos;s extremely likely that both threads will block when they attempt to invoke <code>bowBack</code>. Neither block will ever end, because each thread is waiting for the other to exit <code>bow</code>.</p>
 
-        </div><div id="PageTitle"><h1>Starvation and Livelock</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Starvation and Livelock</h1></header><div>
 
 <p>Starvation and livelock are much less common a problem than deadlock, but are still problems that every designer of concurrent software is likely to encounter.</p>
 <h2>Starvation</h2>
@@ -484,7 +486,7 @@ public class Deadlock {
 <p>A thread often acts in response to the action of another thread. If the other thread&apos;s action is also a response to the action of another thread, then <i>livelock</i> may result. As with deadlock, livelocked threads are unable to make further progress. However, the threads are not blocked &#x2014; they are simply too busy responding to each other to resume work. This is comparable to two people attempting to pass each other in a corridor: Alphonse moves to his left to let Gaston pass, while Gaston moves to his right to let Alphonse pass. Seeing that they are still blocking each other, Alphone moves to his right, while Gaston moves to his left. They&apos;re still blocking each other, so...</p>
 
 
-        </div><div id="PageTitle"><h1>Guarded Blocks</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Guarded Blocks</h1></header><div>
 
 <p>Threads often have to coordinate their actions. The most common coordination idiom is the <i>guarded block</i>. Such a block begins by polling a condition that must be true before the block can proceed. There are a number of steps to follow in order to do this correctly.</p>
 <p>Suppose, for example <code>guardedJoy</code> is a method that must not proceed until a shared variable <code>joy</code> has been set by another thread. Such a method could, in theory, simply loop until the condition is satisfied, but that loop is wasteful, since it executes continuously while waiting.</p>
@@ -650,7 +652,7 @@ public class ProducerConsumerExample {
 <a class="TutorialLink" target="_top" href="../../collections/index.html">Java Collections Framework</a> before trying to code your own data-sharing objects. For more information, refer to the <a href="QandE/questions.html">Questions and Exercises</a> section.
 <hr></div>
 
-        </div><div id="PageTitle"><h1>Immutable Objects</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Immutable Objects</h1></header><div>
 
 <p>An object is considered <i>immutable</i> if its state cannot change after it is constructed. Maximum reliance on immutable objects is widely accepted as a sound strategy for creating simple, reliable code.</p>
 <p>Immutable objects are particularly useful in concurrent applications. Since they cannot change state, they cannot be corrupted by thread interference or observed in an inconsistent state.</p>
@@ -658,7 +660,7 @@ public class ProducerConsumerExample {
 <p>The following subsections take a class whose instances are mutable and derives a class with immutable instances from it. In so doing, they give general rules for this kind of conversion and demonstrate some of the advantages of immutable objects.</p>
 
 
-        </div><div id="PageTitle"><h1>A Synchronized Class Example</h1></div><div id="PageContent">
+        </div></section><section><header><h1>A Synchronized Class Example</h1></header><div>
 
 <p>The class, 
 <a class="SourceLink" target="_blank" href="examples/SynchronizedRGB.java" onclick="showCode(&apos;../../displayCode.html&apos;, &apos;examples/SynchronizedRGB.java&apos;); return false;"><code><code>SynchronizedRGB</code></code></a>, defines objects that represent colors. Each object represents the color as three integers that stand for primary color values and a string that gives the name of the color.</p>
@@ -739,7 +741,7 @@ synchronized (color) {
 </pre></div>
 <p>This kind of inconsistency is only possible for mutable objects &#x2014; it will not be an issue for the immutable version of <code>SynchronizedRGB</code>.</p>
 
-        </div><div id="PageTitle"><h1>A Strategy for Defining Immutable Objects</h1></div><div id="PageContent">
+        </div></section><section><header><h1>A Strategy for Defining Immutable Objects</h1></header><div>
 
 <p>The following rules define a simple strategy for creating immutable objects. Not all classes documented as &quot;immutable&quot; follow these rules. This does not necessarily mean the creators of these classes were sloppy &#x2014; they may have good reason for believing that instances of their classes never change after construction. However, such strategies require sophisticated analysis and are not for beginners.</p>
 <ol>
@@ -811,7 +813,7 @@ final public class ImmutableRGB {
 }
 </pre></div>
 
-        </div><div id="PageTitle"><h1>High Level Concurrency Objects</h1></div><div id="PageContent">
+        </div></section><section><header><h1>High Level Concurrency Objects</h1></header><div>
 
 <p>So far, this lesson has focused on the low-level APIs that have been part of the Java platform from the very beginning. These APIs are adequate for very basic tasks, but higher-level building blocks are needed for more advanced tasks. This is especially true for massively concurrent applications that fully exploit today&apos;s multiprocessor and multi-core systems.</p>
 <p>In this section we&apos;ll look at some of the high-level concurrency features introduced with version 5.0 of the Java platform. Most of these features are implemented in the new <code>java.util.concurrent</code> packages. There are also new concurrent data structures in the Java Collections Framework.</p>
@@ -824,7 +826,7 @@ final public class ImmutableRGB {
 </ul>
 
 
-        </div><div id="PageTitle"><h1>Lock Objects</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Lock Objects</h1></header><div>
 
 <p>Synchronized code relies on a simple kind of reentrant lock. This kind of lock is easy to use, but has many limitations. More sophisticated locking idioms are supported by the 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/package-summary.html"><code>java.util.concurrent.locks</code></a> package. We won&apos;t examine this package in detail, but instead will focus on its most basic interface, 
@@ -931,7 +933,7 @@ public class Safelock {
 }
 </pre></div>
 
-        </div><div id="PageTitle"><h1>Executors</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Executors</h1></header><div>
 
 <p>In all of the previous examples, there&apos;s a close connection between the task being done by a new thread, as defined by its <code>Runnable</code> object, and the thread itself, as defined by a <code>Thread</code> object. This works well for small applications, but in large-scale applications, it makes sense to separate thread management and creation from the rest of the application. Objects that encapsulate these functions are known as <i>executors</i>. The following subsections describe executors in detail.</p>
 <ul>
@@ -941,7 +943,7 @@ public class Safelock {
 </ul>
 
 
-        </div><div id="PageTitle"><h1>Executor Interfaces</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Executor Interfaces</h1></header><div>
 
 <p>The <code>java.util.concurrent</code> package defines three executor interfaces:</p>
 <ul>
@@ -972,7 +974,7 @@ e.execute(r);
 <p>The 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledExecutorService.html"><code>ScheduledExecutorService</code></a> interface supplements the methods of its parent <code>ExecutorService</code> with <code>schedule</code>, which executes a <code>Runnable</code> or <code>Callable</code> task after a specified delay. In addition, the interface defines <code>scheduleAtFixedRate</code> and <code>scheduleWithFixedDelay</code>, which executes specified tasks repeatedly, at defined intervals.</p>
 
-        </div><div id="PageTitle"><h1>Thread Pools</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Thread Pools</h1></header><div>
 
 <p>Most of the executor implementations in <code>java.util.concurrent</code> use <i>thread pools</i>, which consist of <i>worker threads</i>. This kind of thread exists separately from the <code>Runnable</code> and <code>Callable</code> tasks it executes and is often used to execute multiple tasks.</p>
 <p>Using worker threads minimizes the overhead due to thread creation. Thread objects use a significant amount of memory, and in a large-scale application, allocating and deallocating many thread objects creates a significant memory management overhead.</p>
@@ -992,7 +994,7 @@ e.execute(r);
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html"><code>java.util.concurrent.ThreadPoolExecutor</code></a> or 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html"><code>java.util.concurrent.ScheduledThreadPoolExecutor</code></a> will give you additional options.</p>
 
-        </div><div id="PageTitle"><h1>Fork/Join</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Fork/Join</h1></header><div>
 
 <p>The fork/join framework is an implementation of the <code>ExecutorService</code> interface that helps you take advantage of multiple processors. It is designed for work that can be broken into smaller pieces recursively. The goal is to use all the available processing power to enhance the performance of your application.</p>
 <p>As with any <code>ExecutorService</code> implementation, the fork/join framework distributes tasks to worker threads in a thread pool. The fork/join framework is distinct because it uses a <i>work-stealing</i> algorithm. Worker threads that run out of things to do can steal tasks from other threads that are still busy.</p>
@@ -1105,7 +1107,7 @@ pool.invoke(fb);
  <p>Another implementation of the fork/join framework is used by methods in the <code>java.util.streams</code> package, which is part of 
 <a class="OutsideLink" target="_blank" href="http://openjdk.java.net/projects/lambda/">Project Lambda</a> scheduled for the Java SE 8 release. For more information, see the  
 <a class="TutorialLink" target="_top" href="../../java/javaOO/lambdaexpressions.html">Lambda Expressions</a> section.</p>
-        </div><div id="PageTitle"><h1>Concurrent Collections</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Concurrent Collections</h1></header><div>
 
 <p>The <code>java.util.concurrent</code> package includes a number of additions to the Java Collections Framework. These are most easily categorized by the collection interfaces provided:</p>
 <ul>
@@ -1123,7 +1125,7 @@ pool.invoke(fb);
 </ul>
 <p>All of these collections help avoid <a href="memconsist.html">Memory Consistency Errors</a> by defining a happens-before relationship between an operation that adds an object to the collection with subsequent operations that access or remove that object.</p>
 
-        </div><div id="PageTitle"><h1>Atomic Variables</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Atomic Variables</h1></header><div>
 
 <p>The 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html"><code>java.util.concurrent.atomic</code></a> package defines classes that support atomic operations on single variables. All classes have <code>get</code> and <code>set</code> methods that work like reads and writes on <code>volatile</code> variables. That is, a <code>set</code> has a happens-before relationship with any subsequent <code>get</code> on the same variable. The atomic <code>compareAndSet</code> method also has these memory consistency features, as do the simple atomic arithmetic methods that apply to integer atomic variables.</p>
@@ -1193,7 +1195,7 @@ class AtomicCounter {
 }
 </pre></div>
 
-        </div><div id="PageTitle"><h1>Concurrent Random Numbers</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Concurrent Random Numbers</h1></header><div>
 
 <p>In JDK 7, 
 <a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/package-summary.html"><code>java.util.concurrent</code></a> includes a convenience class, 
@@ -1204,7 +1206,7 @@ class AtomicCounter {
 int r = ThreadLocalRandom.current() .nextInt(4, 77);
 </pre></div>
 
-        </div><div id="PageTitle"><h1>For Further Reading</h1></div><div id="PageContent">
+        </div></section><section><header><h1>For Further Reading</h1></header><div>
 
 <ul>
 <li><i>Concurrent Programming in Java: Design Principles and Pattern (2nd Edition)</i> by Doug Lea. A comprehensive work by a leading expert, who&apos;s also the architect of the Java platform&apos;s concurrency framework.</li>
@@ -1215,7 +1217,7 @@ int r = ThreadLocalRandom.current() .nextInt(4, 77);
 <a class="OutsideLink" target="_blank" href="http://sourceforge.net/projects/javaconcurrenta/">Java Concurrent Animated</a>:</i> Animations that show usage of concurrency features.</li>
 </ul>
 
-        </div><div id="PageTitle"><h1>Questions and Exercises: Concurrency</h1></div><div id="PageContent">
+        </div></section><section><header><h1>Questions and Exercises: Concurrency</h1></header><div>
 
 <h2>Questions</h2>
 <ol>
@@ -1262,6 +1264,6 @@ public class BadThreads {
 <a class="TutorialLink" target="_top" href="answers.html">Check your answers.</a></p>
 
 
-        </div></div>
+        </div></section></div>
       </body>
       </html>

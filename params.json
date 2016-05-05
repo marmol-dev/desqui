@@ -3,5 +3,13 @@
     "urlLinks": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
     "linksSelector": "#Contents a",
     "contentSelector":"#PageTitle, #PageContent",
-    "outputFile": "java.html"
+    "outputFile": "java.html",
+    "contentSelectors" : {
+        "title": "#PageTitle",
+        "content": "#PageContent"
+    },
+    "templates": {
+        "docTitle": "<h1>Java manual</h1>",
+        "itemContent": "<section><header>${title}</header><div>${content}</div></section>"
+    }
 }
