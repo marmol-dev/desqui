@@ -6,6 +6,18 @@ const path = require('path');
 const lodashTemplate = require('lodash.template');
 
 class Html {
+  static open(path){
+    return new Promise((resolve, reject) => {
+      fs.readFile(path, 'utf8', function (err,data) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(cheerio.load(data));
+        }
+      });
+    })
+  }
+  
   constructor({contentSelectors, templates: {docTitle, itemContent}}){
     this.$ = cheerio.load(`
       <html>
@@ -26,12 +38,11 @@ class Html {
     this.$contentWrapper = this.$('#content');
   }
 
-  addContent(list){
-   
-    for(let item of list){
+  addContent(doms){
+    for(let $ of doms){
       const context = {};
       for(const name in this.contentSelectors){
-        context[name] = item.find(this.contentSelectors[name]).html();
+        context[name] = $(this.contentSelectors[name]).html();
       } 
       const str = this.compiledTemplates.itemContent(context);
       this.$contentWrapper.append(str);

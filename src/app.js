@@ -3,9 +3,11 @@
 const Crawler = require('./crawler');
 const Html = require('./html');
 const Url = require('./url');
+const Scraper = require('./scraper');
+const path = require('path');
 
 class App {
-  static download({baseUrl, urlLinks, linksSelector, contentSelector, outputFile, headers, contentSelectors, templates}){
+  static download({baseUrl, urlLinks, linksSelector, contentSelector, outputFile, directory, headers, contentSelectors, templates}){
     const html = new Html({contentSelectors, templates});
     
     Crawler.crawl(urlLinks, linksSelector, headers)
@@ -14,10 +16,17 @@ class App {
           Url.join(baseUrl, $list.eq(i).attr('href'))
         ).get()
       )
-      .then(urls => Crawler.bach(urls, 'body', headers))
-      .then(contents => {
-        html.addContent(contents);
-        return html.saveInDisk(outputFile);
+      .then(urls => Scraper.scrape({urls, headers, directory}))
+      .then(paths => 
+        Promise.all(
+          paths.map(path => 
+            Html.open(path)
+          )
+        )
+      )
+      .then(doms => {
+        html.addContent(doms);
+        return html.saveInDisk(path.join(directory, 'index.html'));
       })
       .then(
         dir => console.log('~', dir),

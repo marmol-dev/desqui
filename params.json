@@ -4,6 +4,7 @@
     "linksSelector": "#Contents a",
     "contentSelector":"#PageTitle, #PageContent",
     "outputFile": "java.html",
+    "directory": "sites/java",
     "contentSelectors" : {
         "title": "#PageTitle",
         "content": "#PageContent"
