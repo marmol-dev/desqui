@@ -1,5 +1,5 @@
 {
-  "name": "Batch page scrapper",
+  "name": "desqui",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,17 @@
     "lodash.template": "^4.2.4",
     "request": "^2.70.0",
     "url-join": "^1.1.0",
-    "website-scraper": "^1.0.2"
-  }
+    "website-scraper": "git@github.com:tomymolina/node-website-scraper.git"
+  },
+  "keywords": [
+    "scraper",
+    "document",
+    "crawler",
+    "remote",
+    "book",
+    "generator"
+  ],
+  "engines" : { "node" : ">=6" },
+  "engineStrict": true
+
 }

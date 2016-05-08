@@ -8,19 +8,18 @@ class Scraper {
 
   static scrape({urls, headers, directory}){
     console.log(urls, directory);
+    let cnt = 0;
+    const urlsObj = urls.map(url => ({url: url, filename: `page_${cnt++}.html`}));
     return scraper.scrape({
-        urls: urls,
+        urls: urlsObj,
         directory: directory,
-        sources: [
-            {selector: 'img', attr: 'src'},
-            {selector: 'link[rel="stylesheet"]', attr: 'href'},
-            {selector: 'script', attr: 'src'}
-        ],
         request: {
             headers: headers
         }
     });
   }
 }
+
+
 
 module.exports = Scraper;

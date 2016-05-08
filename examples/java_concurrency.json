@@ -1,0 +1,16 @@
+{
+    "baseUrl": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
+    "urlLinks": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
+    "directory": "Documents/java_concurrency",
+    "selectors": {
+        "links": "#Contents a",
+        "item": {
+            "title": "#PageTitle",
+            "content": "#PageContent"
+        }
+    },
+    "templates": {
+        "documentFront": "<h1>Java Concurrency Manual</h1>",
+        "item": "<section><header>${title}</header><div>${content}</div></section>"
+    }
+}
