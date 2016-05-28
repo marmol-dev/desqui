@@ -1,8 +1,8 @@
 {
   "name": "desqui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +13,7 @@
     "lodash.template": "^4.2.4",
     "request": "^2.70.0",
     "url-join": "^1.1.0",
-    "website-scraper": "git@github.com:tomymolina/node-website-scraper.git"
+    "website-scraper": "^1.0.3"
   },
   "keywords": [
     "scraper",
@@ -23,7 +23,15 @@
     "book",
     "generator"
   ],
-  "engines" : { "node" : ">=6" },
-  "engineStrict": true
-
+  "engines": {
+    "node": ">=6"
+  },
+  "engineStrict": true,
+  "devDependencies": {
+    "webpack": "^1.13.1",
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "webpack-node-externals": "^1.2.0"
+  }
 }
