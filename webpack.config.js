@@ -8,7 +8,9 @@ module.exports = {
   ],
   output: {
     path: 'dist',
-    filename: 'app.build.js'
+    filename: 'app.build.js',
+    library : true,
+    libraryTarget: 'commonjs2'
   },
   target: 'node',
   externals : [nodeExternals()],

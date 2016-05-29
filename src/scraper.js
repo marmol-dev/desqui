@@ -1,10 +1,10 @@
 'use strict';
 
-const request = require('request');
-const cheerio = require('cheerio');
-const scraper = require('website-scraper');
+import request from 'request';
+import * as cheerio from 'cheerio';
+import * as scraper from 'website-scraper';
 
-class Scraper {
+export default class Scraper {
 
   static scrape({urls, headers, directory}){
     console.log(urls, directory);
@@ -19,7 +19,3 @@ class Scraper {
     });
   }
 }
-
-
-
-module.exports = Scraper;

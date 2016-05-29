@@ -18,5 +18,5 @@ try {
 
     App.download(params);
 } catch (e){
-    console.error(e);
+    console.error(e.stack);
 }

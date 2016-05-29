@@ -1,39 +1,38 @@
 'use strict';
 
-const Crawler = require('./crawler');
-const Html = require('./html');
-const Url = require('./url');
-const Scraper = require('./scraper');
-const path = require('path');
-const Logger = require('./logger');
-const {mandatory} = require('./utils');
-
+import Crawler from './crawler';
+import Html from './html';
+import Url from './url';
+import Scraper from './scraper';
+import * as path from 'path';
+import Logger from './logger';
+import {mandatory} from './utils';
 
 class App {
   static download({
-    baseUrl = mandatory('baseUrl'), 
-    urlLinks = mandatory('urlLinks'), 
-    selectors: { 
+    baseUrl = mandatory('baseUrl'),
+    urlLinks = mandatory('urlLinks'),
+    selectors: {
       links: linksSelector = mandatory('selectors.links'),
-      item: itemSelectors = mandatory('selectors.item') 
-    } = mandatory('selectors'), 
-    directory = mandatory('directory'), 
-    headers, 
+      item: itemSelectors = mandatory('selectors.item')
+    } = mandatory('selectors'),
+    directory = mandatory('directory'),
+    headers,
     templates,
     logMode = true
   }){
     const html = new Html({itemSelectors, templates});
-    
+
     return Crawler.crawl({url: urlLinks, selector: linksSelector, headers})
-      .then($list => 
-        $list.map((i) => 
+      .then($list =>
+        $list.map((i) =>
           Url.join(baseUrl, $list.eq(i).attr('href'))
         ).get()
       )
       .then(urls => Scraper.scrape({urls, headers, directory}))
-      .then(resources => 
+      .then(resources =>
         Promise.all(
-          resources.map(resource => 
+          resources.map(resource =>
             Html.open(path.join(directory, resource.filename))
           )
         )
@@ -54,5 +53,7 @@ class App {
       );
   }
 }
+
+
 
 module.exports = App;

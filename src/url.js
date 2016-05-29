@@ -1,11 +1,9 @@
 'use strict';
 
-const urlJoin = require('url-join');
+import urlJoin from 'url-join';
 
-class Url {
+export default class Url {
     static join(...paths){
         return urlJoin(...paths);
     }
 }
-
-module.exports = Url;

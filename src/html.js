@@ -1,10 +1,10 @@
 'use strict';
 
-const cheerio = require('cheerio');
-const fs = require('fs');
-const path = require('path');
-const lodashTemplate = require('lodash.template');
-const {mandatory} = require('./utils');
+import * as cheerio from 'cheerio';
+import * as fs from 'fs';
+import * as path from 'path';
+import lodashTemplate from 'lodash.template';
+import {mandatory} from './utils';
 
 const DEFAULT_DOCUMENT_TEMPLATE = `
   <html>
@@ -38,22 +38,22 @@ class Html {
       });
     })
   }
-  
+
   constructor({
-    itemSelectors, 
-    documentTitle, 
+    itemSelectors,
+    documentTitle,
     templates: {
-      documentFront : documentFrontTemplate = DEFAULT_DOCUMENT_FRONT, 
-      document : documentTemplate = DEFAULT_DOCUMENT_TEMPLATE, 
+      documentFront : documentFrontTemplate = DEFAULT_DOCUMENT_FRONT,
+      document : documentTemplate = DEFAULT_DOCUMENT_TEMPLATE,
       item: itemTemplate = mandatory('templates.item')
     }
   }){
-    
+
     const documentFront = lodashTemplate(documentFrontTemplate)({documentTitle});
     const document = lodashTemplate(documentTemplate)({documentTitle, documentFront});
-    
+
     this.$ = cheerio.load(document);
-    
+
     this.itemCompiledTemplate = lodashTemplate(itemTemplate);
     this.itemSelectors = itemSelectors;
     this.$items = this.$('#items');
@@ -64,7 +64,7 @@ class Html {
       const context = {};
       for(const name in this.itemSelectors){
         context[name] = $(this.itemSelectors[name]).html();
-      } 
+      }
       const str = this.itemCompiledTemplate(context);
       this.$items.append(str);
     }
@@ -84,4 +84,4 @@ class Html {
   }
 }
 
-module.exports = Html;
+export default Html;

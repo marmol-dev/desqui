@@ -1,9 +1,7 @@
 'use strict';
 
-class Utils {
+export default class Utils {
     static mandatory(name){
         throw new Error(`Param ${name} is mandatory`);
     }
 }
-
-module.exports = Utils;

@@ -1,9 +1,9 @@
 'use strict';
 
-const request = require('request');
-const cheerio = require('cheerio');
+import request from 'request';
+import * as cheerio from 'cheerio';
 
-class Crawler {
+export default class Crawler {
   static crawl({url, selector, headers = {}}){
     return new Promise((resolve, reject) => {
       request(url, {headers}, (err, response, body) => {
@@ -17,5 +17,3 @@ class Crawler {
     });
   }
 }
-
-module.exports = Crawler;

@@ -1,3 +1,4 @@
+module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -55,18 +56,37 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _crawler = __webpack_require__(2);
+	
+	var _crawler2 = _interopRequireDefault(_crawler);
+	
+	var _html = __webpack_require__(5);
+	
+	var _html2 = _interopRequireDefault(_html);
+	
+	var _url = __webpack_require__(10);
+	
+	var _url2 = _interopRequireDefault(_url);
+	
+	var _scraper = __webpack_require__(12);
+	
+	var _scraper2 = _interopRequireDefault(_scraper);
+	
+	var _path = __webpack_require__(7);
+	
+	var path = _interopRequireWildcard(_path);
+	
+	var _logger = __webpack_require__(14);
+	
+	var _logger2 = _interopRequireDefault(_logger);
+	
+	var _utils = __webpack_require__(9);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Crawler = __webpack_require__(2);
-	var Html = __webpack_require__(5);
-	var Url = __webpack_require__(10);
-	var Scraper = __webpack_require__(12);
-	var path = __webpack_require__(7);
-	var Logger = __webpack_require__(14);
-	
-	var _require = __webpack_require__(9);
-	
-	var mandatory = _require.mandatory;
 	
 	var App = function () {
 	  function App() {
@@ -77,42 +97,42 @@
 	    key: 'download',
 	    value: function download(_ref) {
 	      var _ref$baseUrl = _ref.baseUrl;
-	      var baseUrl = _ref$baseUrl === undefined ? mandatory('baseUrl') : _ref$baseUrl;
+	      var baseUrl = _ref$baseUrl === undefined ? (0, _utils.mandatory)('baseUrl') : _ref$baseUrl;
 	      var _ref$urlLinks = _ref.urlLinks;
-	      var urlLinks = _ref$urlLinks === undefined ? mandatory('urlLinks') : _ref$urlLinks;
+	      var urlLinks = _ref$urlLinks === undefined ? (0, _utils.mandatory)('urlLinks') : _ref$urlLinks;
 	      var _ref$selectors = _ref.selectors;
-	      _ref$selectors = _ref$selectors === undefined ? mandatory('selectors') : _ref$selectors;
+	      _ref$selectors = _ref$selectors === undefined ? (0, _utils.mandatory)('selectors') : _ref$selectors;
 	      var _ref$selectors$links = _ref$selectors.links;
-	      var linksSelector = _ref$selectors$links === undefined ? mandatory('selectors.links') : _ref$selectors$links;
+	      var linksSelector = _ref$selectors$links === undefined ? (0, _utils.mandatory)('selectors.links') : _ref$selectors$links;
 	      var _ref$selectors$item = _ref$selectors.item;
-	      var itemSelectors = _ref$selectors$item === undefined ? mandatory('selectors.item') : _ref$selectors$item;
+	      var itemSelectors = _ref$selectors$item === undefined ? (0, _utils.mandatory)('selectors.item') : _ref$selectors$item;
 	      var _ref$directory = _ref.directory;
-	      var directory = _ref$directory === undefined ? mandatory('directory') : _ref$directory;
+	      var directory = _ref$directory === undefined ? (0, _utils.mandatory)('directory') : _ref$directory;
 	      var headers = _ref.headers;
 	      var templates = _ref.templates;
 	      var _ref$logMode = _ref.logMode;
 	      var logMode = _ref$logMode === undefined ? true : _ref$logMode;
 	
-	      var html = new Html({ itemSelectors: itemSelectors, templates: templates });
+	      var html = new _html2.default({ itemSelectors: itemSelectors, templates: templates });
 	
-	      return Crawler.crawl({ url: urlLinks, selector: linksSelector, headers: headers }).then(function ($list) {
+	      return _crawler2.default.crawl({ url: urlLinks, selector: linksSelector, headers: headers }).then(function ($list) {
 	        return $list.map(function (i) {
-	          return Url.join(baseUrl, $list.eq(i).attr('href'));
+	          return _url2.default.join(baseUrl, $list.eq(i).attr('href'));
 	        }).get();
 	      }).then(function (urls) {
-	        return Scraper.scrape({ urls: urls, headers: headers, directory: directory });
+	        return _scraper2.default.scrape({ urls: urls, headers: headers, directory: directory });
 	      }).then(function (resources) {
 	        return Promise.all(resources.map(function (resource) {
-	          return Html.open(path.join(directory, resource.filename));
+	          return _html2.default.open(path.join(directory, resource.filename));
 	        }));
 	      }).then(function (doms) {
 	        html.addContent(doms);
 	        return html.saveInDisk(path.join(process.cwd(), directory, 'index.html'));
 	      }).then(function (dir) {
-	        Logger.log(logMode, dir);
+	        _logger2.default.log(logMode, dir);
 	        return dir;
 	      }, function (err) {
-	        Logger.error(logMode, err);
+	        _logger2.default.error(logMode, err);
 	        return Promise.reject(err);
 	      });
 	    }
@@ -129,12 +149,25 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var _request = __webpack_require__(3);
 	
-	var request = __webpack_require__(3);
-	var cheerio = __webpack_require__(4);
+	var _request2 = _interopRequireDefault(_request);
+	
+	var _cheerio = __webpack_require__(4);
+	
+	var cheerio = _interopRequireWildcard(_cheerio);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Crawler = function () {
 	  function Crawler() {
@@ -150,7 +183,7 @@
 	      var headers = _ref$headers === undefined ? {} : _ref$headers;
 	
 	      return new Promise(function (resolve, reject) {
-	        request(url, { headers: headers }, function (err, response, body) {
+	        (0, _request2.default)(url, { headers: headers }, function (err, response, body) {
 	          if (err) {
 	            reject(err);
 	          } else {
@@ -165,7 +198,7 @@
 	  return Crawler;
 	}();
 	
-	module.exports = Crawler;
+	exports.default = Crawler;
 
 /***/ },
 /* 3 */
@@ -185,19 +218,35 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _cheerio = __webpack_require__(4);
+	
+	var cheerio = _interopRequireWildcard(_cheerio);
+	
+	var _fs = __webpack_require__(6);
+	
+	var fs = _interopRequireWildcard(_fs);
+	
+	var _path = __webpack_require__(7);
+	
+	var path = _interopRequireWildcard(_path);
+	
+	var _lodash = __webpack_require__(8);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	var _utils = __webpack_require__(9);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var cheerio = __webpack_require__(4);
-	var fs = __webpack_require__(6);
-	var path = __webpack_require__(7);
-	var lodashTemplate = __webpack_require__(8);
-	
-	var _require = __webpack_require__(9);
-	
-	var mandatory = _require.mandatory;
-	
 	
 	var DEFAULT_DOCUMENT_TEMPLATE = '\n  <html>\n    <head>\n      <title>${documentTitle}</title>\n    </head>\n    <body>\n      <div id="front">\n        ${documentFront}\n      </div>\n      <div id="items"></div>\n    </body>\n</html>\n';
 	
@@ -228,16 +277,16 @@
 	    var _ref$templates$docume2 = _ref$templates.document;
 	    var documentTemplate = _ref$templates$docume2 === undefined ? DEFAULT_DOCUMENT_TEMPLATE : _ref$templates$docume2;
 	    var _ref$templates$item = _ref$templates.item;
-	    var itemTemplate = _ref$templates$item === undefined ? mandatory('templates.item') : _ref$templates$item;
+	    var itemTemplate = _ref$templates$item === undefined ? (0, _utils.mandatory)('templates.item') : _ref$templates$item;
 	
 	    _classCallCheck(this, Html);
 	
-	    var documentFront = lodashTemplate(documentFrontTemplate)({ documentTitle: documentTitle });
-	    var document = lodashTemplate(documentTemplate)({ documentTitle: documentTitle, documentFront: documentFront });
+	    var documentFront = (0, _lodash2.default)(documentFrontTemplate)({ documentTitle: documentTitle });
+	    var document = (0, _lodash2.default)(documentTemplate)({ documentTitle: documentTitle, documentFront: documentFront });
 	
 	    this.$ = cheerio.load(document);
 	
-	    this.itemCompiledTemplate = lodashTemplate(itemTemplate);
+	    this.itemCompiledTemplate = (0, _lodash2.default)(itemTemplate);
 	    this.itemSelectors = itemSelectors;
 	    this.$items = this.$('#items');
 	  }
@@ -296,7 +345,7 @@
 	  return Html;
 	}();
 	
-	module.exports = Html;
+	exports.default = Html;
 
 /***/ },
 /* 6 */
@@ -322,6 +371,10 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -341,7 +394,7 @@
 	    return Utils;
 	}();
 	
-	module.exports = Utils;
+	exports.default = Utils;
 
 /***/ },
 /* 10 */
@@ -349,11 +402,19 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var _urlJoin = __webpack_require__(11);
 	
-	var urlJoin = __webpack_require__(11);
+	var _urlJoin2 = _interopRequireDefault(_urlJoin);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Url = function () {
 	    function Url() {
@@ -363,14 +424,14 @@
 	    _createClass(Url, null, [{
 	        key: 'join',
 	        value: function join() {
-	            return urlJoin.apply(undefined, arguments);
+	            return _urlJoin2.default.apply(undefined, arguments);
 	        }
 	    }]);
 	
 	    return Url;
 	}();
 	
-	module.exports = Url;
+	exports.default = Url;
 
 /***/ },
 /* 11 */
@@ -384,13 +445,29 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var _request = __webpack_require__(3);
 	
-	var request = __webpack_require__(3);
-	var cheerio = __webpack_require__(4);
-	var scraper = __webpack_require__(13);
+	var _request2 = _interopRequireDefault(_request);
+	
+	var _cheerio = __webpack_require__(4);
+	
+	var cheerio = _interopRequireWildcard(_cheerio);
+	
+	var _websiteScraper = __webpack_require__(13);
+	
+	var scraper = _interopRequireWildcard(_websiteScraper);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Scraper = function () {
 	  function Scraper() {
@@ -422,7 +499,7 @@
 	  return Scraper;
 	}();
 	
-	module.exports = Scraper;
+	exports.default = Scraper;
 
 /***/ },
 /* 13 */
@@ -435,6 +512,10 @@
 /***/ function(module, exports) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -472,7 +553,7 @@
 	    return Logger;
 	}();
 	
-	module.exports = Logger;
+	exports.default = Logger;
 
 /***/ }
 /******/ ]);
