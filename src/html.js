@@ -40,7 +40,7 @@ class Html {
   }
 
   constructor({
-    itemSelectors,
+    selectors: itemSelectors,
     documentTitle,
     templates: {
       documentFront : documentFrontTemplate = DEFAULT_DOCUMENT_FRONT,
