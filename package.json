@@ -1,6 +1,6 @@
 {
   "name": "desqui",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "dist/app.build.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "cheerio": "^0.20.0",
     "lodash.template": "^4.2.4",
     "request": "^2.70.0",
+    "schema-inspector": "^1.6.4",
     "url-join": "^1.1.0",
     "website-scraper": "^1.0.3"
   },

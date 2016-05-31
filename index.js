@@ -16,7 +16,11 @@ try {
         throw new Error('Invalid params file:' + paramsFileName);
     }
 
-    App.download(params);
+    App.createDocument(params)
+      .then(
+        dir => console.log('File saved in ', dir),
+        err => console.error('Error', err)
+      );
 } catch (e){
     console.error(e.stack);
 }

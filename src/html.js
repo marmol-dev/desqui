@@ -36,7 +36,7 @@ class Html {
           resolve(cheerio.load(data));
         }
       });
-    })
+    });
   }
 
   constructor({
@@ -79,7 +79,7 @@ class Html {
       fs.writeFile(dir, this.toString(), (err) => {
         if (err) reject(err);
         else resolve(dir);
-      })
+      });
     });
   }
 }

@@ -1,18 +1,23 @@
 # Desqui
 Generate a document using remote pages.
 
+> NOTE: Docs partially completed
+
 ## How it works?
-To run Desqui you must create a `json` file with the params of the document. 
+To run Desqui you must create a `json` file with the params of the document.
 It will read this file, crawl the remote website to get the links based on a selector.
 Then it will download all the links' pages with it resources and extract the relevant data (based on selectors).
 With every page relevant data it will create a item using a custom template (Lodash templates).
 Finaly it will build the HTML document joining the items and the title.
 
 ## Params
+### urls
+The urls that will be downloaded.
+
 ### baseUrl
 The url used to concatenate the relative links.
 
-### urlLinks 
+### urlLinks
 The url where the links of the pages will be extracted.
 
 ### directory
@@ -27,7 +32,7 @@ An object with the following structure:
 - The key is the name of the *variable*.
 - The value is the JQuery selector in the items' page.
 
-All these variables can be used in templates. 
+All these variables can be used in templates.
 
 ### documentTitle
 The `<title>` of the document (and the default front).
@@ -53,29 +58,41 @@ Note: You need to create an element in the body with the id `items` in order to 
 4. `node index /path/to/params.json`
 
 
-## Example
+## Examples
+### Example 1 with urls crawling
 ```json
 {
     "baseUrl": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
     "urlLinks": "https://docs.oracle.com/javase/tutorial/essential/concurrency/",
+    "linksSelector": "#Contents a",
     "directory": "Documents/java_concurrency",
     "selectors": {
-        "links": "#Contents a",
-        "item": {
-            "title": "#PageTitle",
-            "content": "#PageContent"
-        }
+        "title": "#PageTitle",
+        "content": "#PageContent"
     },
     "documentTitle": "Java Concurrency Manual",
-    "templates": {
-        "documentFront": "<h1>Java Concurrency Manual</h1>",
-        "item": "<section><header>${title}</header><div>${content}</div></section>"
-    }
+    "documentFrontTemplate": "<h1>Java Concurrency Manual</h1>",
+    "itemTemplate": "<section><header>${title}</header><div>${content}</div></section>"
+}
+```
+
+### Example 2 using urls
+```json
+{
+    "urls": ["http://google.com", "http://facebook.com"],
+    "directory": "Documents/google_facebook",
+    "selectors": {
+        "title": "title",
+        "content": "body"
+    },
+    "documentTitle": "Google and Facebook",
+    "documentFrontTemplate": "<h1>Google and Facebook</h1>",
+    "itemTemplate": "<section><header>${title}</header><div>${content}</div></section>"
 }
 ```
 
 That will:
-    
+
 - Fetch `https://docs.oracle.com/javase/tutorial/essential/concurrency/`.
 - Get the `href` of all links with the following selector: `#Contents a`.
 - Scrape all the previous links.
